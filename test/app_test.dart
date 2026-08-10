@@ -95,7 +95,7 @@ void main() {
     expect(find.text('Education & growth'), findsOneWidget);
   });
 
-  testWidgets('respects system text scaling at 200%', (tester) async {
+  testWidgets('keeps text size fixed at 200% system scaling', (tester) async {
     tester.view.physicalSize = const Size(320, 568);
     tester.view.devicePixelRatio = 1;
     tester.platformDispatcher.textScaleFactorTestValue = 2;
@@ -115,7 +115,7 @@ void main() {
     final brandContext = tester.element(
       find.byKey(const ValueKey('jmoney-brand-mark')),
     );
-    expect(MediaQuery.textScalerOf(brandContext).scale(16), 32);
+    expect(MediaQuery.textScalerOf(brandContext).scale(16), 16);
     await tester.scrollUntilVisible(
       find.text(provider.jars.first.name),
       180,
@@ -123,14 +123,6 @@ void main() {
     );
     final accessibleCards = find.byType(JarCard);
     expect(accessibleCards, findsNWidgets(4));
-    expect(
-      tester.getCenter(accessibleCards.at(0)).dx,
-      closeTo(tester.getCenter(accessibleCards.at(1)).dx, 0.1),
-    );
-    expect(
-      tester.getCenter(accessibleCards.at(0)).dy,
-      isNot(closeTo(tester.getCenter(accessibleCards.at(1)).dy, 0.1)),
-    );
     expect(tester.takeException(), isNull);
   });
 

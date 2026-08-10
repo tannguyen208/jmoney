@@ -50,7 +50,7 @@ class TransactionTile extends StatelessWidget {
 
     final amountLabel = '${isIncome ? '+' : isTransfer ? '' : '−'}'
         '${formatCurrency(context, item.amount)}';
-    final useStackedAmount = MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    final useStackedAmount = MediaQuery.sizeOf(context).width < 360;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),

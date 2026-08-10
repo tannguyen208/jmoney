@@ -18,8 +18,7 @@ class JarCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = colorFromHex(jar.color);
     final theme = Theme.of(context);
-    final usesAccessibleLayout =
-        MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    final usesAccessibleLayout = MediaQuery.sizeOf(context).width < 280;
     final percentage =
         '${jar.percentage.toStringAsFixed(jar.percentage % 1 == 0 ? 0 : 1)}%';
     final balance =

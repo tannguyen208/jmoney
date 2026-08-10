@@ -10,6 +10,9 @@
 - Start a target device with `flutter run`; Web/Chrome uses the browser storage path and has no native notifications.
 - `tool/bootstrap.sh` is the clean-project setup path: it requires Flutter, runs `flutter pub get`, `flutter gen-l10n`, and `flutter test`.
 - `tool/jmoney.sh` is the daily helper: use `./tool/jmoney.sh web|android|ios|macos|windows|linux`, `reset`, `check`, or `help` instead of guessing platform flags.
+- Install and launch a release build on a physical device with `./tool/install-device.sh android <device-id>` or `./tool/install-device.sh ios <device-id>` after checking IDs with `flutter devices`.
+- Rebuild from a clean project with `./tool/build-from-scratch.sh all`, or target one platform with `android` or `ios`.
+- Build from scratch and install on the configured Android device with `./tool/build-install-device.sh`; the device ID is read from `.env` as `ANDROID_DEVICE_ID`.
 
 ## Structure
 

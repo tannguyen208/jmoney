@@ -1006,8 +1006,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('jar details support 200% system text on compact screens',
-      (tester) async {
+  testWidgets('jar details keep fixed text on compact screens', (tester) async {
     tester.view.physicalSize = const Size(320, 568);
     tester.view.devicePixelRatio = 1;
     tester.platformDispatcher.textScaleFactorTestValue = 2;
@@ -1043,7 +1042,7 @@ void main() {
       MediaQuery.textScalerOf(
         tester.element(find.text('Thêm chi tiêu')),
       ).scale(16),
-      32,
+      16,
     );
     expect(tester.takeException(), isNull);
     await tester.scrollUntilVisible(

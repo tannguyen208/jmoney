@@ -634,19 +634,13 @@ class _JarGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final textScale = MediaQuery.textScalerOf(context).scale(1);
-        final usesAccessibleList = textScale > 1.3;
-        final columns = usesAccessibleList
-            ? 1
-            : constraints.maxWidth >= 900
-                ? 4
-                : constraints.maxWidth >= 600
-                    ? 3
-                    : 2;
+        final columns = constraints.maxWidth >= 900
+            ? 4
+            : constraints.maxWidth >= 600
+                ? 3
+                : 2;
         final itemWidth = (constraints.maxWidth - (columns - 1) * 12) / columns;
-        final childAspectRatio = usesAccessibleList
-            ? (itemWidth / 152).clamp(1.6, 2.4).toDouble()
-            : (itemWidth / 128).clamp(1.08, 1.85).toDouble();
+        final childAspectRatio = (itemWidth / 128).clamp(1.08, 1.85).toDouble();
         return GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

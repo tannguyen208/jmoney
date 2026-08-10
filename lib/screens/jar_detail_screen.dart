@@ -248,8 +248,7 @@ class _JarActions extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
-        final vertical = constraints.maxWidth < 340 ||
-            MediaQuery.textScalerOf(context).scale(1) > 1.3;
+        final vertical = constraints.maxWidth < 340;
         final expense = FilledButton.icon(
           onPressed: onExpense,
           icon: const Icon(Icons.north_east_rounded),
@@ -426,8 +425,7 @@ class _ActivityRow extends StatelessWidget {
     };
     final amount = '${activity.delta > 0 ? '+' : '−'}'
         '${formatCurrency(context, activity.delta.abs())}';
-    final stackAmount = MediaQuery.sizeOf(context).width < 360 ||
-        MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    final stackAmount = MediaQuery.sizeOf(context).width < 360;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),

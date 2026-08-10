@@ -289,8 +289,7 @@ class _LegendRow extends StatelessWidget {
       onTap: onTap,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final stacked = MediaQuery.textScalerOf(context).scale(1) > 1.3 ||
-              constraints.maxWidth < 360;
+          final stacked = constraints.maxWidth < 360;
           if (stacked) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

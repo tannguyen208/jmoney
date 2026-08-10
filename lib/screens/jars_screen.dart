@@ -124,13 +124,6 @@ class JarsScreen extends StatelessWidget {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ReorderableDragStartListener(
-                            index: index,
-                            child: const Padding(
-                              padding: EdgeInsets.all(12),
-                              child: Icon(Icons.drag_handle_rounded),
-                            ),
-                          ),
                           PopupMenuButton<_JarAction>(
                             onSelected: (action) {
                               if (action == _JarAction.edit) {

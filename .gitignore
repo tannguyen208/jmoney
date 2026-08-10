@@ -12,3 +12,4 @@ android/.gradle/
 android/local.properties
 ios/Flutter/ephemeral/
 macos/Flutter/ephemeral/
+.env

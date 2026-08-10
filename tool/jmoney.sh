@@ -12,7 +12,7 @@ Usage:
   ./tool/jmoney.sh <command> [arguments]
 
 Run:
-  web | chrome       Run on Chrome
+  web | chrome       Run on Chrome with DevTools and iPhone XS viewport
   android            Run on Android
   ios                Run on iOS
   macos              Run on macOS
@@ -59,7 +59,14 @@ run_platform() {
       exit 2
       ;;
   esac
-  flutter run -d "$device" "$@"
+  if [ "$device" = "chrome" ]; then
+    flutter run -d "$device" \
+      --web-browser-flag=--auto-open-devtools-for-tabs \
+      --web-browser-flag=--window-size=375,812 \
+      "$@"
+  else
+    flutter run -d "$device" "$@"
+  fi
 }
 
 command=${1:-help}
