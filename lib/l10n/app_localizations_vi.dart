@@ -210,6 +210,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get totalSpent => 'Tổng đã chi';
 
   @override
+  String get total => 'Tổng';
+
+  @override
   String get spendingByCategory => 'Theo danh mục';
 
   @override

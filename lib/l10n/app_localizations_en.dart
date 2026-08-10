@@ -212,6 +212,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalSpent => 'Total spent';
 
   @override
+  String get total => 'Total';
+
+  @override
   String get spendingByCategory => 'By category';
 
   @override

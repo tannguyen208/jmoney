@@ -65,14 +65,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
     final dailyExpenses = <DateTime, int>{};
     for (final transaction in items) {
       if (transaction.type != TransactionType.expense) continue;
-      final day = DateTime(
-        transaction.date.year,
-        transaction.date.month,
-        transaction.date.day,
-      );
+      final day = DateUtils.dateOnly(transaction.date);
       dailyExpenses[day] = (dailyExpenses[day] ?? 0) + transaction.amount;
     }
-
     return Scaffold(
       appBar: AppBar(title: Text(l10n.historyTitle)),
       body: SafeArea(
@@ -236,16 +231,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               previous.month != item.date.month;
                           final showDayHeader =
                               showMonthHeader || previous.day != item.date.day;
-                          final dailyExpense = dailyExpenses[DateTime(
-                                item.date.year,
-                                item.date.month,
-                                item.date.day,
-                              )] ??
-                              0;
-                          final compactDayHeader =
-                              MediaQuery.sizeOf(context).width < 360 ||
-                                  MediaQuery.textScalerOf(context).scale(1) >
-                                      1.3;
                           final dayLabel = Text(
                             formatDate(context, item.date),
                             style: Theme.of(context)
@@ -258,20 +243,28 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   fontWeight: FontWeight.w700,
                                 ),
                           );
-                          final dailyTotalLabel = Text(
-                            '${l10n.totalSpent}: '
-                            '${formatCurrency(context, dailyExpense)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                          final dailyTotalLabel = Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.north_east_rounded,
+                                size: 14,
+                                color: colors.error,
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                formatCurrency(
+                                    context,
+                                    dailyExpenses[
+                                            DateUtils.dateOnly(item.date)] ??
+                                        0),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700),
+                              ),
+                            ],
                           );
-
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -297,22 +290,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(4, 10, 4, 6),
-                                  child: compactDayHeader
-                                      ? Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            dayLabel,
-                                            const SizedBox(height: 2),
-                                            dailyTotalLabel,
-                                          ],
-                                        )
-                                      : Row(
-                                          children: [
-                                            Expanded(child: dayLabel),
-                                            dailyTotalLabel,
-                                          ],
-                                        ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(child: dayLabel),
+                                      dailyTotalLabel,
+                                    ],
+                                  ),
                                 ),
                               Slidable(
                                 key: ValueKey(item.id),

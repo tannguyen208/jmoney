@@ -74,6 +74,7 @@
   "transactionDeleted": "Đã xóa giao dịch",
   "statsTitle": "Thống kê",
   "totalSpent": "Tổng đã chi",
+  "total": "Tổng",
   "spendingByCategory": "Theo danh mục",
   "noStats": "Chưa có dữ liệu chi tiêu",
   "noStatsBody": "Thống kê sẽ xuất hiện sau khi bạn ghi nhận khoản chi đầu tiên.",

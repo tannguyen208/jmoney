@@ -289,6 +289,12 @@ class _ActivityTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dailyExpenses = <DateTime, int>{};
+    for (final activity in activities) {
+      if (activity.type != JarActivityType.expense) continue;
+      final day = DateUtils.dateOnly(activity.transaction.date);
+      dailyExpenses[day] = (dailyExpenses[day] ?? 0) + activity.delta.abs();
+    }
     return SliverPadding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 36),
       sliver: SliverList.builder(
@@ -312,12 +318,36 @@ class _ActivityTimeline extends StatelessWidget {
             if (_startsDay(index))
               Padding(
                 padding: const EdgeInsets.fromLTRB(4, 4, 4, 8),
-                child: Text(
-                  formatDate(context, activities[index].transaction.date),
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontWeight: FontWeight.w700,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        formatDate(context, activities[index].transaction.date),
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w700),
                       ),
+                    ),
+                    Icon(
+                      Icons.north_east_rounded,
+                      size: 14,
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                    const SizedBox(width: 3),
+                    Text(
+                      formatCurrency(
+                          context,
+                          dailyExpenses[DateUtils.dateOnly(
+                                activities[index].transaction.date,
+                              )] ??
+                              0),
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelMedium
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                  ],
                 ),
               ),
             Card(

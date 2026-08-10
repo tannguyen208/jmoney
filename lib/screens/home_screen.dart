@@ -27,6 +27,12 @@ class HomeScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final provider = context.watch<FinanceProvider>();
     final periodTransactions = provider.periodTransactions;
+    final dailyExpenses = <DateTime, int>{};
+    for (final transaction in periodTransactions) {
+      if (transaction.type != TransactionType.expense) continue;
+      final day = DateUtils.dateOnly(transaction.date);
+      dailyExpenses[day] = (dailyExpenses[day] ?? 0) + transaction.amount;
+    }
     final recentTransactions = periodTransactions.take(5).toList();
     final recentRows = <Widget>[];
     DateTime? previousRecentDate;
@@ -37,15 +43,37 @@ class HomeScreen extends StatelessWidget {
           previousDate.month != item.date.month ||
           previousDate.day != item.date.day;
       if (isNewDay) {
+        final colors = Theme.of(context).colorScheme;
         recentRows.add(
           Padding(
             padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
-            child: Text(
-              formatDate(context, item.date),
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w700,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    formatDate(context, item.date),
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: colors.onSurfaceVariant,
+                        fontWeight: FontWeight.w700),
                   ),
+                ),
+                Icon(
+                  Icons.north_east_rounded,
+                  size: 14,
+                  color: colors.error,
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  formatCurrency(
+                    context,
+                    dailyExpenses[DateUtils.dateOnly(item.date)] ?? 0,
+                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium
+                      ?.copyWith(fontWeight: FontWeight.w700),
+                ),
+              ],
             ),
           ),
         );

@@ -74,6 +74,7 @@
   "transactionDeleted": "Transaction deleted",
   "statsTitle": "Statistics",
   "totalSpent": "Total spent",
+  "total": "Total",
   "spendingByCategory": "By category",
   "noStats": "No spending data yet",
   "noStatsBody": "Statistics will appear after you record your first expense.",

@@ -482,6 +482,12 @@ abstract class AppLocalizations {
   /// **'Tổng đã chi'**
   String get totalSpent;
 
+  /// No description provided for @total.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tổng'**
+  String get total;
+
   /// No description provided for @spendingByCategory.
   ///
   /// In vi, this message translates to:

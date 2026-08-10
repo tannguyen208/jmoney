@@ -29,6 +29,11 @@ class CategorySpendingScreen extends StatelessWidget {
               item.categoryId == summary.id,
         )
         .toList();
+    final groupedTransactions = <DateTime, List<FinanceTransaction>>{};
+    for (final transaction in transactions) {
+      final day = DateUtils.dateOnly(transaction.date);
+      groupedTransactions.putIfAbsent(day, () => []).add(transaction);
+    }
 
     return Scaffold(
       appBar: AppBar(title: Text(summary.label)),
@@ -50,7 +55,7 @@ class CategorySpendingScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            l10n.totalSpent,
+                            l10n.total,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall
@@ -74,19 +79,56 @@ class CategorySpendingScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  for (final transaction in transactions)
-                    TransactionTile(
-                      item: transaction,
-                      provider: provider,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => EditTransactionScreen(
-                            transaction: transaction,
+                  for (final entry in groupedTransactions.entries) ...[
+                    Builder(
+                      builder: (context) {
+                        final colors = Theme.of(context).colorScheme;
+                        final dailyTotal = entry.value
+                            .fold<int>(0, (sum, item) => sum + item.amount);
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 8, 4, 6),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  formatDate(context, entry.key),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                          color: colors.onSurfaceVariant,
+                                          fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                              Icon(Icons.north_east_rounded,
+                                  size: 14, color: colors.error),
+                              const SizedBox(width: 3),
+                              Text(
+                                formatCurrency(context, dailyTotal),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    for (final transaction in entry.value)
+                      TransactionTile(
+                        item: transaction,
+                        provider: provider,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => EditTransactionScreen(
+                              transaction: transaction,
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                  ],
                 ],
               ),
       ),
