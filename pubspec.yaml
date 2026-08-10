@@ -1,0 +1,36 @@
+name: jmoney
+description: Ứng dụng quản lý tài chính cá nhân.
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  fl_chart: ^1.2.0
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.2.3
+  flutter_web_plugins:
+    sdk: flutter
+  flutter_local_notifications: ^22.2.0
+  flutter_localizations:
+    sdk: flutter
+  flutter_slidable: ^4.0.3
+  intl: any
+  mmkv: ^2.4.1
+  provider: ^6.1.5+1
+  timezone: ^0.11.0
+  url_launcher: ^6.3.2
+  web: ^1.1.1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/branding/jmoney_app_mark.png
+    - assets/icons8/
+    - assets/koboyo/
